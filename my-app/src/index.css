@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ruwudu:wght@400;500;600;700&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Geologica", sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.home-page {
+  background: url(https://images.unsplash.com/photo-1709978601970-036e92662b46?q=80&w=1826&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.header-name {
+  text-transform: uppercase;
+  color: white;
+}
+
+.header-links {
+  margin-left: auto;
+  display: flex;
+  gap: .8rem;
+}
+
+
+.front-face {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.front-face-content {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+}
+
+.front-face-content span {
+  font-size: 5rem;
+  color: white;
+}
+
+
+.front-face-content .color {
+  color: #B23A14;
+  font-style: italic;
+}
+
+
+
+
+.front-face-btn {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.front-face-btn span {
+  font-size: 5rem;
+  color: #B23A14;
+  font-style: oblique;
+  font-weight: 200;
+}
+
+.front-face-btn button {
+  width: 200px;
+  color: white;
+  font-weight: 200;
+  font-size: 2.3rem;
+  cursor: pointer;
+  margin: 8px 0;
+  border-radius: 12px;
+  background: none;
+  border: 1px solid #EEEAD9;
+
+}
+
+/*about-page*/
+
+.about-page{
+  background-color: #1E2726;
+  min-height: 100vh;
+}
+
+.about-us-header {
+  color: #EEEAD9;
+  text-align: center;
+  
+}
+
+.about-us-header h2 {
+  font-size: 5rem;
+}
+
+.about-us-header p {
+  font-size: 2.5rem;
+  text-decoration: underline;
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+.about-us-header .color {
+  color: #B23A14;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.about-us-content .text {
+  color: #EEEAD9;
+  width: 650px;
+  margin: auto;
+  text-align: center;
+  line-height: 29px;
+  font-size: 1.2rem;
+  margin-top: 12px;
+  font-weight: 200;
+}
+
+
+/* contact-page */ 
+
+.contact-page {
+  background-color: #EEEAD9;
+  min-height: 100vh;
+}
+
+@media only screen and (max-width:844px){
+
+  .front-face {
+    top: 30%;
+  }
+
+  .front-face-content {
+    text-align: center;
+  }
+
+  .front-face-btn {
+    margin: auto;
+  }
+
+  .front-face-btn button {
+    font-size: 1.8rem;
+  }
+
+  .front-face-btn span {
+    font-size: 2rem;
+    text-align: center;
+  }
+}
