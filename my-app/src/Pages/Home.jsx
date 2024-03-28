@@ -1,11 +1,10 @@
 import React from 'react'
-import Header from '../Component/Header'
+import Header from '../Component/Navbar'
 import FrontFace from '../Component/FrontFace'
 
 const Home = () => {
   return (
     <div className='home-page'>
-        <Header />
         <FrontFace />
     </div>
   )

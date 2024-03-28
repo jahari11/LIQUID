@@ -1,9 +1,11 @@
 import React from 'react'
 import ContactForm from '../Component/ContactForm'
+import Navbar from '../Component/Navbar'
 const Contact = () => {
   return (
     <div className='contact-page'>
-        <ContactForm />
+      <Navbar />
+      <ContactForm />
     </div>
   )
 }
