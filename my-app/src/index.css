@@ -43,6 +43,21 @@ li {
   cursor: pointer;
 }
 
+
+.navbar-icon-bag {
+  position: fixed;
+  top: 20px;
+  right: 50px;
+  color: white;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.bag-badge {
+  color: red;
+  
+}
+
 .navbar-logo img {
   width: 100px;
 }
@@ -148,8 +163,63 @@ li {
 
 }
 
+/* shop-page */
+
+.shop-page {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.8)), url(./assets/playdead\ bg.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.shopping-list {
+  width: 80%;
+  margin: 80px auto;
+}
+
+.shopping-list-title{
+  color: white;
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.shopping-list-items {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  justify-content: space-around;
+  row-gap: 20px;
+  column-gap: 1.33%;
+  
+}
+
+.item-container {
+
+  width: 100%; 
+}
 
 
+
+.image-container img {
+  width: 300px;
+  height: 300px;
+  cursor: pointer;
+}
+
+.details {
+  margin-top: 3px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.details span {
+  font-weight: 600;
+  font-size: 18px;
+  color: white;
+}
 
 
 
@@ -162,6 +232,8 @@ li {
   background-size: cover;
   min-height: 100vh;
 }
+
+
 
 
 .contact-from-head {
