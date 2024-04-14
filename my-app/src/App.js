@@ -7,6 +7,7 @@ import ItemDetails from './Pages/itemdetails/ItemDetails'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import Confirmation from './Pages/checkout/Confirmation'
 import CartMenu from './Component/CartMenu'
+import ImageGrid from './Component/ImageGrid'
 
 const App = () => {
   return (
@@ -16,8 +17,8 @@ const App = () => {
       <Route path='/' index element={<Home />} />
       <Route path='/about' element={<About />} />
       <Route path='/shop' element={<Shop />} />
-      <Route path='item/:itemId' element= {<ItemDetails />} />
-      <Route path='/contact' element={<Contact />} />
+      <Route element= {<ItemDetails />} />
+      <Route path='item/:itemId' element={<Contact />} />
       <Route path='/checkout-success' element={<Confirmation />} />
       </Routes>
       <CartMenu />

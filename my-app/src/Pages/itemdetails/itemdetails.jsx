@@ -1,37 +1,78 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveIcon from '@mui/icons-material/Remove';
-import { addToCart } from '../../state/index.js';
-import Item from '../../Component/Item.jsx';
-import Navbar from '../../Component/Navbar.jsx'
+import { useParams } from "react-router-dom";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import { addToCart } from "../../state";
+import { useDispatch } from "react-redux";
+
+import Navbar from "../../Component/Navbar";
 
 
 const ItemDetails = () => {
   const dispatch = useDispatch();
   const { itemId } = useParams();
+  const [value, setValue] = useState("description");
   const [count, setCount] = useState(1);
   const [item, setItem] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [items, setItems] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   async function getItem() {
-    const itemResponse = await fetch(
-      `http://localhost:1339/api/items/${itemId}?populate=*`,
-      { method: "GET" }
+    const item = await fetch(
+      `http://localhost:1339/api/items/${itemId}?populate=image`,
+      {
+        method: "GET",
+      }
     );
-    const itemData = await itemResponse.json();
-    setItem(itemData.data);
+    const itemJson = await item.json();
+    setItem(itemJson.data);
+    if (itemJson.data && itemJson.data.attributes && itemJson.data.attributes.image) {
+      setSelectedImage(itemJson.data.attributes.image[0]);
+    }
   }
 
   async function getItems() {
-    const itemsResponse = await fetch(
+    const items = await fetch(
       `http://localhost:1339/api/items?populate=image`,
-      { method: "GET" }
+      {
+        method: "GET",
+      }
     );
-    const itemsData = await itemsResponse.json();
-    setItems(itemsData.data);
+    const itemsJson = await items.json();
+    setItems(itemsJson.data);
+  }
+
+  useEffect(() => {
+    getItem();
+    getItems();
+  }, [itemId]);
+
+  async function getItem() {
+    const item = await fetch(
+      `http://localhost:1339/api/items/${itemId}?populate=image`,
+      {
+        method: "GET",
+      }
+    );
+    const itemJson = await item.json();
+    setItem(itemJson.data);
+  }
+
+  async function getItems() {
+    const items = await fetch(
+      `http://localhost:1339/api/items?populate=image`,
+      {
+        method: "GET",
+      }
+    );
+    const itemsJson = await items.json();
+    setItems(itemsJson.data);
   }
 
   useEffect(() => {
@@ -40,91 +81,84 @@ const ItemDetails = () => {
   }, [itemId]);
 
   const handleSizeChange = (size) => {
-  if (selectedSize === size) {
-    setSelectedSize(null);
-  } else {
-    setSelectedSize(size);
-  }
-  };
-
-
-
-  const sizes = item && item.attributes && item.attributes.size ? (
-    item.attributes.size.map((size, index) => (
-      <button
-        key={index}
-        onClick={() => handleSizeChange(size.name)}
-        className={`size-option ${selectedSize === size.name ? 'selected' : ''}`}
-      >
-        {size.name}
-      </button>
-    ))
-  ) : (
-    <p>One Size</p>
-  );
+    if (selectedSize === size) {
+      setSelectedSize(null);
+    } else {
+      setSelectedSize(size);
+    }
+    };
+  
+  
+  
+    const sizes = item && item.attributes && item.attributes.size ? (
+      item.attributes.size.map((size, index) => (
+        <button
+          key={index}
+          onClick={() => handleSizeChange(size.name)}
+          className={`size-option ${selectedSize === size.name ? 'selected' : ''}`}
+        >
+          {size.name}
+        </button>
+      ))
+    ) : (
+      <p>One Size</p>
+    );
+  
 
   return (
     <div className="item-page">
       <Navbar />
-    <div className="item-details-container">
-      <div className="item-details-content">
-        {/* Images */}
-        <div className="item-images-container">
-          <img
-            alt={item?.name}
-            src={`http://localhost:1339${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
-          />
-        </div>
+      <Box className="item-details-container" m="80px auto">
+        <Box className="item-actions-container">
+          {/* IMAGES */}
+          <Box className="item-images-container">
+            <img
+              alt={item?.name}
+              src={`http://localhost:1339${item?.attributes?.image?.data?.attributes?.formats?.small?.url}`}
+            />
+          </Box>
 
-        {/* Actions */}
-        <div className="item-actions-container">
-          <div className="item-actions">
-            <div className="item-info">
-              <h3>{item?.attributes?.name}</h3>
-              <p>{item?.attributes?.shortDescription}</p>
-              <p>${item?.attributes?.price}</p>
-            </div>
+          
 
-             {/* Size Options */}
-             <div className="size-options">
+          {/* ACTIONS */}
+          <Box className="item-actions">
+            <Box className="item-info">
+              <span className="name">{item?.attributes?.name}</span>
+              <span className="price">${item?.attributes?.price}</span>
+              <span className="description">{item?.attributes?.shortDescription}</span>
+            </Box>
+
+            <div className="size-options">
               {sizes}
             </div>
 
-            <div className="item-quantity">
-              <button onClick={() => setCount(Math.max(count - 1, 0))}>
+            <Box className="item-quantity">
+              <IconButton onClick={() => setCount(Math.max(count - 1, 0))}>
                 <RemoveIcon />
-              </button>
-              <span>{count}</span>
-              <button onClick={() => setCount(count + 1)}>
+              </IconButton>
+              <Typography>{count}</Typography>
+              <IconButton onClick={() => setCount(count + 1)}>
                 <AddIcon />
-              </button>
-            </div>
-
-           
-
-            <div className="add-to-cart-button">
-              <button
-                onClick={() => dispatch(addToCart({ item: { ...item, count } }))}
-              >
-                ADD TO CART
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Related Items */}
-      <div className="related-items-container">
-        <h3>Related Products</h3>
-        <div className="related-items">
-          {items.slice(0, 4).map((item, i) => (
-            <Item key={`${item.name}-${i}`} item={item} />
-          ))}
-        </div>
-      </div>
-    </div>
+              </IconButton>
+            </Box>
+            <Box>
+            <Button sx={{
+              color:'white',
+              backgroundColor: 'rgb(38, 122, 38)',
+              '&:hover': {
+                  backgroundColor: 'black', 
+                  color: 'rgb(38, 122, 38)', 
+              }
+            }} className="add-to-cart-button"
+              onClick={() => dispatch(addToCart({ item: { ...item, count } }))}
+            ><span>ADD TO CART</span>
+            </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
     </div>
   );
-}
+};
 
 export default ItemDetails;
