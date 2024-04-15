@@ -3,11 +3,10 @@ import Home from './Pages/Home'
 import About from './Pages/About'
 import Contact from './Pages/Contact'
 import Shop from './Pages/Shop'
-import ItemDetails from './Pages/itemdetails/ItemDetails'
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import Confirmation from './Pages/checkout/Confirmation'
 import CartMenu from './Component/CartMenu'
-import ImageGrid from './Component/ImageGrid'
+import ItemDetails from './Pages/productdetails/ItemDetails'
 
 const App = () => {
   return (
@@ -17,8 +16,7 @@ const App = () => {
       <Route path='/' index element={<Home />} />
       <Route path='/about' element={<About />} />
       <Route path='/shop' element={<Shop />} />
-      <Route element= {<ItemDetails />} />
-      <Route path='item/:itemId' element={<Contact />} />
+      <Route path='item/:itemId' element={<ItemDetails />} />
       <Route path='/checkout-success' element={<Confirmation />} />
       </Routes>
       <CartMenu />

@@ -5,8 +5,7 @@ import ImageGrid from '../Component/ImageGrid'
 const Contact = () => {
   return (
     <div className='contact-page'>
-      <Navbar />
-      <ImageGrid />
+      Contact Us
     </div>
   )
 }

@@ -7,13 +7,13 @@ import { IconButton } from '@mui/material';
 import { addToCart } from '../state/index.js';
 import { useDispatch } from 'react-redux';
 
+
 const ImageGrid = () => {
   const dispatch = useDispatch();
   const { itemId } = useParams();
   const [item, setItem] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [count, setCount] = useState(1);
-  const [primaryImage, setPrimaryImage] = useState(null); // New state to hold the URL of the primary image
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -21,8 +21,6 @@ const ImageGrid = () => {
         const response = await axios.get(`http://localhost:1339/api/items/${itemId}?populate=*`);
         const selectedItem = response.data.data;
         setItem(selectedItem);
-        // Set the primary image initially when the component mounts
-        setPrimaryImage(selectedItem.attributes.image.data.attributes.formats.small.url);
         // Check if the selected size exists in the item's size array
         if (selectedItem.attributes.size) {
           const initialSelectedSize = selectedItem.attributes.size.find(size => size.name === selectedSize);
@@ -42,11 +40,6 @@ const ImageGrid = () => {
     setSelectedSize(size === selectedSize ? null : size);
   };
 
-  const handleImageClick = (imageUrl) => {
-    // Update the state with the URL of the clicked image
-    setPrimaryImage(imageUrl);
-  };
-
   if (!item) {
     return <div>Loading...</div>;
   }
@@ -55,19 +48,7 @@ const ImageGrid = () => {
     <div>
       <div className='item-details-container'>
         <div className="item-images-container">
-          {/* Display the primary image */}
-          <img src={`http://localhost:1339${primaryImage}`} alt="Primary" />
-          <div className='image-grid'>
-            {/* Display the images in the grid */}
-            {item.attributes.imageGrid.data && item.attributes.imageGrid.data.map((image, index) => (
-              <img
-                key={index}
-                src={`http://localhost:1339${image.attributes.formats.small.url}`}
-                alt={`Additional Image ${index + 1}`}
-                onClick={() => handleImageClick(image.attributes.formats.small.url)} // Handle click on image
-              />
-            ))}
-          </div>
+          <img src={`http://localhost:1339${item?.attributes?.image?.data?.attributes?.formats?.small?.url}`} alt='main-image' />
         </div>
         <div className="item-details">
           <div className="item-info">
@@ -98,9 +79,15 @@ const ImageGrid = () => {
           </div>
         </div>
       </div>
+      <div className='image-grid'>
+            {item.attributes.imageGrid.data && item.attributes.imageGrid.data.map((image, index) => (
+              <img key={index} src={`http://localhost:1339${image.attributes.formats.small.url}`} alt={`Additional Image ${index + 1}`} />
+            ))}
+      </div>
     </div>
   );
 };
 
 export default ImageGrid;
+
 
