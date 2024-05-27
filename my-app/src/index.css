@@ -306,6 +306,13 @@ li {
   border: 1px solid rgb(38, 122, 38);
 }
 
+.img-magnifier-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
 
 
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import axios from 'axios';
-import { Spa } from '@mui/icons-material';
+import ReactImageMagnify from 'react-image-magnify';
 
 const ItemDetails = () => {
   const { productId } = useParams();
@@ -34,7 +34,38 @@ const ItemDetails = () => {
 
   return (
     <Box className="item-details">
-      <img src={imageUrl} alt={title} />
+      <div className="img-magnifier-container">
+        <ReactImageMagnify
+          {...{
+            smallImage: {
+              alt: title,
+              isFluidWidth: true,
+              src: imageUrl,
+            },
+            largeImage: {
+              src: imageUrl,
+              width: 1400,
+              height: 1400
+            },
+            enlargedImageContainerStyle: { 
+              zIndex: 9,
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+            },
+        enlargedImagePosition: "over",
+        isHintEnabled: true,
+        hintTextMouse: "Hover to Zoom",
+        hintTextTouch: "Touch to Zoom",
+        enlargedImageContainerDimensions: {
+          width: '150%', // Increased width for the zoom container
+          height: '150%', // Increased height for the zoom container
+        },
+      }}
+        />
+      </div>
       <div className='item-details-2'>
       <h1 className='p-t'>{title}</h1>
       <p className='p-d'>{description}</p>
