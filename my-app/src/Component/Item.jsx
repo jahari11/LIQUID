@@ -1,56 +1,66 @@
-import React from 'react'
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { IconButton, Box, Typography, Button } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import { addToCart } from "../state";
-import { useNavigate } from "react-router-dom";
-const Item = ({item, width}) => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [count, setCount] = useState(1);
-    const [isHovered, setisHovered] = useState(false);
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Box, Button } from '@mui/material';
+import axios from 'axios';
+import { Spa } from '@mui/icons-material';
 
-    if (!item || !item.attributes) {
-        return null;
-    }
+const ItemDetails = () => {
+  const { productId } = useParams();
+  const [product, setProduct] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
 
-    const { category, price, name, image } = item.attributes;
-
-    if (!image || !image.data) {
-        return null;
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await axios.get(`http://localhost:1337/api/products/${productId}?populate=image`);
+        setProduct(response.data.data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
       }
+    };
+    fetchProduct();
+  }, [productId]);
 
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
-      const { formats } = image.data.attributes || {};
-
-      const url = formats?.medium?.url; 
-    
+  const { attributes } = product;
+  const { title, price, description, size = [], image } = attributes;
+  const imageUrl = `http://localhost:1337${image.data.attributes.formats.medium.url}`;
+  const handleSizeClick = (size) => {
+    setSelectedSize(size)
+  }
 
   return (
-    <Box className="item-container" style={{ width: width }}>
-      <Box
-        className="image-container"
-        onMouseOver={() => setisHovered(true)}
-        onMouseOut={() => setisHovered(false)}
-      >
-        {/* Render placeholder image if url is missing */}
-        {url ? (
-          <img
-            alt={item.name}
-            src={`http://localhost:1339${url}`}
-            onClick={() => navigate(`/item/${item.id}`)}
-          />
-        ) : (
-          <div>No Image Available</div>
-        )}
-      </Box>
-
-      <Box onClick={() => navigate(`/item/${item.id}`)} className="details">
-        <span>{name}</span>
-        <span>${price}</span>
-      </Box>
+    <Box className="item-details">
+      <img src={imageUrl} alt={title} />
+      <div className='item-details-2'>
+      <h1 className='p-t'>{title}</h1>
+      <p className='p-d'>{description}</p>
+      <p className='p-p'>Price: ${price}</p>
+      <div className='size-container'>
+        <h3 className='sizes'>Sizes:</h3>
+        <div className='size'>
+        {size.length === 0 || (size.length === 1 && size[0] === "One Size") ? (
+            <p>One Size</p>
+          ) : (
+            size.map((s, index) => (
+              <span
+                key={index} 
+                className={selectedSize === s.size ? 'size-button selected' : 'size-button'} 
+                onClick={() => handleSizeClick(s.size)}
+              >
+                {s.size}
+              </span>
+            ))
+          )}
+        </div>
+      </div>
+      </div>
     </Box>
-  )}
-export default Item;
+  );
+};
+
+export default ItemDetails;
+

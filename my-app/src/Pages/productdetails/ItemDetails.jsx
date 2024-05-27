@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from '../../Component/Navbar'
-import ImageGrid from '../../Component/ImageGrid'
+import Item from '../../Component/Item'
 
 const ItemDetails = () => {
   return (
     <div className='item-page'>
         <Navbar />
-        <ImageGrid />
+        <Item />
     </div>
   )
 }
